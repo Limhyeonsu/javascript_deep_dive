@@ -76,3 +76,85 @@ function Circle4(radius){
 }
 const circle4 = new Circle4(1);
 console.log(circle4);  //ircle4 { radius: 1, getDiameter: [Function (anonymous)] }
+
+//내부메서드
+function foo() {}
+foo.prop = 10;  //함수는 객체이므로 프로퍼티를 소유할 수 있다.
+foo.method = function() {  //메서드를 소유할 수 있다.
+    console.log(this.prop);
+};
+foo.method(); //10
+
+
+function foo() {}
+foo();  //일반적인 함수로서 호출 : [[Call]]
+new foo();  //생성자 함수로서 호출 : [[Construct]]
+
+//constructor, non-constructor
+function foo(){} //함수 선언문
+const ber = function() {};  //함수 표현식
+
+const baz = {
+    x: function(){} //일반함수로 정의, 메서드로 인정하지 않음
+};
+
+new foo();  //foo{}
+new bar();  //bar{}
+new baz.x();  //x{}
+
+const arrow = () => {};  //화살표 함수
+new arrow();  //error
+
+const obj = {
+    x() {}  //메서드의 축약표현
+};
+new obj.x();  //error
+
+//new 연산자
+//일반 함수로 정의 -> new 연산자로 호출 -> 생성자 함수로 동작
+function add(x, y) {
+    return x + y;
+}
+
+let inst = new add();
+//함수가 객체를 반환하지 않으므로 반환문은 무시되고 빈 객체를 생성하여 반환한다.
+console.log(inst);  // {}
+
+//객체를 반환하는 일반 함수
+function createUser(name, role) {
+    return { name, role };
+}
+//일반 함수를 생성자 함수로 호출
+inst = new createUser('Lee', 'admin');
+console.log(inst);  // {name: 'Lee', role: 'admin'}
+
+//생성자 함수로 정의 -> new 연산자 미사용 > 일반 함수로 동작
+function Circle5(radius){
+    this.radius = radius;
+    this.getDiameter = function() {
+        return 2 * this.radius;
+    };
+}
+
+const circle5 = Circle5(5);
+console.log(circle5);  //undefined
+
+console.log(radius);  //5
+console.log(getDiameter());  //10
+circle5.getDiameter();  //error
+
+//new.target
+function Circle6(radius){
+    //생성자 함수로 호출되지 않는다면 new.target은 undefined이다.
+    if(!new.target){
+        //생성자 함수로 호출되지 않았다면 재귀호출 하여 생성자 함수의 인스턴스를 반환한다.
+        return new Circle6(radius);
+    }
+    this.radius = radius;
+    this.getDiameter = function() {
+        return 2 * this.radius;
+    };
+}
+//new 연산자 없이 호출했음에도 new.target을 통해 생성자 함수로써 호출한다.
+const circle6 = Circle6(5);
+console.log(circle6.getDiameter());
