@@ -144,3 +144,22 @@ console.log(arr);  //[[1,2],3,4,[5,6]];
 var result = [1,2].concat([3,4]);
 result = result.concat([5,6]);
 console.log(result); //[1,2,3,4,5,6]
+
+//7)
+const todos = [
+    {id: 1, content: 'HTML', completed: false},
+    {id: 2, content: 'CSS', completed: true},
+    {id: 3, content: 'Javascript', completed: false},
+];
+const _todos = todos.slice();  //얕은 복사
+console.log(_todos === todos);  //false
+console.log(_todos[0] === todos[0]);  //true 배열의 참조 값이 같다 (얕은 복사)
+
+//8)
+[1,[2,[3,[4]]]].flat(); //[1,2,[3,4]]  기본 값은 1임
+[1,[2,[3,[4]]]].flat(1); //[1,2,[3,4]]
+
+[1,[2,[3,[4]]]].flat(2);  //[1,2,3,[4]]
+[1,[2,[3,[4]]]].flat(2).flat();  //[1,2,3,[4]]
+
+[1,[2,[3,[4]]]].flat(Infinity);  //[1,2,3,4]
