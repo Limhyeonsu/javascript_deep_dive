@@ -163,3 +163,62 @@ console.log(_todos[0] === todos[0]);  //true 배열의 참조 값이 같다 (얕
 [1,[2,[3,[4]]]].flat(2).flat();  //[1,2,3,[4]]
 
 [1,[2,[3,[4]]]].flat(Infinity);  //[1,2,3,4]
+
+
+//9. 배열 고차 함수
+const fruits = ['Banana', 'Orange', 'Apple'];
+fruits.sort();  //오름차순
+fruits.reverse();  //내림차순
+
+const points = [40, 100, 1, 5, 2, 25, 10];
+points.sort((a,b) => a - b); //비교함수의 반환값이 0보다 작으면 a를 우선하여 정렬
+
+//객체를 요소로 갖는 배열 정렬
+const todos = [
+{id: 4, content: 'JavaScript'},
+{id: 1, content: 'HTML'},
+{id: 2, content: 'CSS'}
+];
+
+function compare(key){
+    return (a,b) => (a[key] > b[key] ? 1 : (a[key] < b[key] ? -1: 0));
+}
+//id를 기준으로 오름차순 정렬
+todos.sort(compare('id'));
+//content를 기준으로 오름차순 정렬
+todos.sort(compare('content'));
+
+//forEach
+[1,2,3].forEach((item, index, arr) => {
+    console.log(`요소값 ${item}, 인덱스: ${index}, this: ${JSON.stringify(arr)}`);
+});
+/*
+요소값: 1, 인덱스: 0, this: [1,2,3]
+요소값: 2, 인덱스: 1, this: [1,2,3]
+요소값: 3, 인덱스: 2, this: [1,2,3]
+*/
+
+//map
+const numbers = [1,4,9];
+const roots = numbers.map(item => Math.sqrt(item));
+console.log(roots);  //[1,2,3] 새로운 배열 반환
+console.log(numbers);  //[1,4,5] 원본은 변경되지 않음
+
+class Prefixer {
+    construntor(prefix) {
+        this.prefix = prefix;
+    }
+
+    add(arr) {
+        return arr.map(function (item){
+            return this.prefix + item;
+        }, this); //map 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달
+    }
+}
+const prefixer = new Prefixer('-webkit-');
+console.log(prefixer.add(['transition', 'user-select']));
+
+//filter
+const numbers = [1,2,3,4,5];
+const odds = numbers.filter(item => item % 2);
+console.log(odds);  //[1,3,5]
