@@ -222,3 +222,50 @@ console.log(prefixer.add(['transition', 'user-select']));
 const numbers = [1,2,3,4,5];
 const odds = numbers.filter(item => item % 2);
 console.log(odds);  //[1,3,5]
+
+//reduce
+//1) 두개의 인수 콜백함수와 초기값 0을 전달받아 자신을 호출한 배열의 모든 요소를 누적한 결과를 반환한다.
+const sum = [1,2,3,4].reduce((accmulator, currentValue, index, array) => accmulator + currentValue, 0);
+console.log(sum);  //10
+
+//2) 평균구하기
+const values = [1,2,3,4,5,6];
+const average = values.reduce((acc, cur, i, { length}) =>{
+    return i === length - 1 ? (acc+cur) / length : acc + cur;
+}, 0);
+console.log(average);
+
+//3) 최대값
+const max = values.reduce((acc, cur) => (acc > cur ? acc : cur), 0);
+console.log(max);  //6
+
+//4) 중첩 배열 평탄화
+const values = [1, [2, 3], 4, [5, 6]];
+const flatten = values.reduce((acc, cur) => acc.concat(cur), []);
+console.log(flatten);  // [1,2,3,4,5,6]
+
+//some
+[5,10,15].some(item => item > 10);  //true
+[5,10,15].some(item => item <  0);  //false
+
+//every
+[5,10,15].every(item => item > 3);  //true
+[5,10,15].every(item => item > 10);  //false
+
+//find
+const users = [
+    {id: 1, name: 'Lee'},
+    {id: 2, name: 'Kim'},
+    {id: 3, name: 'Choi'},
+    {id: 4, name: 'Park'},
+];
+users.find(user => user.id === 2);  //{id: 2, name: 'Kim'}
+
+//findIndex
+users.findIndex(users => users.id === 2);  //1
+users.findIndex(users => users.name === 'Park');  //3
+
+//flatMap
+const arr = ['hello', 'world'];
+arr.map(x => x.split('')).flat(); //['h','e','l','l','o','w','o','r','l','d']
+arr.flatMap(x => x.split('')); // ['h','e','l','l','o','w','o','r','l','d']
