@@ -110,3 +110,59 @@ Set.prototype.isSuperset = function(subset){
 
 console.log(setA.isSuperset(setB));  //true
 console.log(setB.isSuperset(setA));  //false
+
+
+//2. Map
+//1) Map객체 생성
+var map = new Map();
+console.log(map);  // Map(0){}
+
+const map1 = new Map([['key1', 'value1'],['key2', 'value2']]);
+console.log(map1); // Map(2) {"key1" => "value1", "key2" => "value2"}
+const map2 = new Map([1,2]);  //error
+
+map = new Map([['key1', 'value1'],['key1', 'value2']]);
+console.log(map); //Map(1) {"key1" => "value1"}
+
+//2) 요소 개수 확인
+const {size} = new Map([['key1', 'value1'],['key2', 'value2']]);
+console.log(size); //2
+
+map.size = 10;  //무시
+console.log(map.size); //1
+
+//3) 요소 추가
+map.set('key2','value2');
+console.log(map); // Map(2) {"key1" => "value1", "key2" => "value2"}
+
+map = new Map();
+const lee = {name: 'Lee'};
+const kim = {name:'Kim'};
+map.set(lee, 'developer'),set(kim, 'desiger');
+console.log(map);  //Map(2) { {name:"Lee"} => "developer", {name: "Kim"} => "designer"}
+
+//4) 요소 취득
+map = new Map();
+map.set(lee, 'developer').set(kim, 'designer');
+
+console.log(map.get(lee));  //developer
+console.log(map.get('key'));  //undefined
+
+//5) 요소 존재 여부 확인
+map = new Map([[lee, 'developer'], [kim, 'designer']]);
+console.log(map.has(lee));  //true
+console.log(map.has('key'));  //false
+
+//6) 요소 삭제
+map.delete(kim);
+console.log(map);  // Map(1) { {name: "Lee" => "developer"}}
+
+//7) 요소 일괄 삭제
+map.clear();
+console.log(map); //Map(0) {}
+
+//8) 요소 순회
+map = new Map([['key1', 'value1'],['key2', 'value2']]);
+map.forEach((v, k, map) => console.log(v, k, map));
+
+console.log(Symbol.iterator in map);  //true
